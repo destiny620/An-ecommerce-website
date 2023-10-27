@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Order {% endblock %}
+{% block edit_order_active %} active {% endblock edit_order_active %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+<div class="jumbotron container row">
+    <div class="col-md-6">
+        <div class="card card-body">
+           <form action="" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+                {{form.as_p}}
+                <br>
+             <input type="submit" name="submit">
+             </form>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+
+{% endblock %}

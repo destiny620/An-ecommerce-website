@@ -1,0 +1,92 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Products {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+
+
+<div class="container mt-5 mb-3">
+    <!-- <h1>Products</h1> -->
+    
+    <div class="row" style="padding: 10px; margin: 20px;">
+    {% for product  in object_list %}
+    <div class="col-lg-4 my-4">
+        <!-- <div class="card" style="width: 19rem; height: 30rem; border:1px rgb(201, 197, 197) solid"> -->
+        <div class="card" style="width: 19rem; height: 30rem; border:1px rgb(201, 197, 197)">
+            <img class="card-img-top" src="/media/{{product.image}}" alt="Card image cap" style="height: 19rem; width: 19rem;">
+            <div class="card-body">
+            <h5  class="category"><a style="text-decoration: none; color: red;" href="{% url 'category' product.category %}">{{product.category}}</a></h5>
+            <h5 class="card-title">{{product.manufacturer}}</h5>
+           
+            <p class="card-text"><del> N{{product.price}}</del> N{{product.discount_price}}</p>
+            
+            <a class="btn btn-primary" href="{% url 'product_detail' product.pk %}">Details</a>
+            {% if user.is_superuser %}
+            <a class="btn btn-warning" href="{% url 'edit_product' product.pk %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'delete_product' product.pk %}">Delete</a>
+            {% endif %}
+            
+        </div>
+        </div>
+        </div>
+     {% endfor %}
+    </div>
+    </div>
+   <br>
+<!-- 
+   {% if is_paginated %}
+  <ul class="pagination" style="margin-left: 100px;">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %} -->
+
+
+
+ <!-- {% for item in items %}
+    Render the item details here 
+    <p>{{ item.name }}</p>
+    Add more item attributes as needed 
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if items.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ items.previous_page_number }}">previous</a>
+        {% endif %}
+        
+        <span class="current-page">{{ items.number }}</span>
+        
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}">next</a>
+            <a href="?page={{ items.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>   -->
+
+  
+    {% endblock %}
+
+    

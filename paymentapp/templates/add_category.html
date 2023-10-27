@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Create A New Category  {% endblock %}
+{% block add_category_active %} active {% endblock add_category_active %}
+
+{% block css %}
+{% endblock %}
+{% block body %}
+<form action="/add_category/" enctype="multipart/form-data" method="POST"> {% csrf_token %}
+<div class="container mt-4">
+{{ form.as_p }}
+<button class="btn btn-primary">Add Blog</button>
+</div>
+</form>
+{% endblock %}
+<!-- {% block js %}
+<script>
+    {% if alert %}
+    alert('Your Blog is added successfully.');
+    document.location = '/';
+    {% endif %}
+</script>
+{% endblock %} -->
+
+

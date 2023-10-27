@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %} Customer Detail {% endblock %}
+{% block customer_detail_active %} active {% endblock customer_detail_active %}
+
+
+{% block css %}
+{% endblock %}
+{% block body %}
+
+<div class="container mt-5 mb-3">
+   
+        <!-- <div class="row"> -->
+            <div class="jumbotron container row">
+           
+            
+            <div class="col-md-8">
+                <div class="profile-tab">
+                    <div class="tab-pane">
+                        <br><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>First Name:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.first_name}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Last Name:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.last_name}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Phone Number:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payment.phone_no}}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Email:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.email}}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Product:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.product}}</p>
+                            </div>
+                        </div>
+                       
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Amount:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.amount}}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>City:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.city}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Created:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.created}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Updated:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.updated}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Paystack Reference:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.paystack_ref}}</p>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Paid:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{payments.paid}}</p>
+                            </div>
+                        </div>
+                        
+                </div>       
+                </div>
+            </div>
+</div>
+</div>
+
+{% endblock %}

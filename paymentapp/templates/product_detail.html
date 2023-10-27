@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %} Product Details {% endblock %}
+{% block product_detail_active %} active {% endblock product_detail_active %}
+
+{% block script %} <script src="https://js.script.com/v3/"></script> {% endblock script %}
+{% block css %}
+{% endblock %}
+{% block body %}
+
+<div class="container mt-5 mb-3">
+   
+        <div class="row">
+           
+            <div class="col-md-8">
+                
+                <div class="profile-img">
+                    
+                    <img src="/media/{{products.image}}" alt="" width="400px" height="350px">
+                   
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="profile-tab">
+                    <div class="tab-pane">
+                        <br><br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Name:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{products.manufacturer}}</p>
+                            </div>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Price:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>N{{products.price}}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Stock:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{sold_out}}</p>
+                            </div>
+                        </div>
+                      
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Description:</label>
+                            </div>
+
+                            <div class="col-md">
+                            <div class="row">
+                                <p>{{products.description}}</p>
+                            </div>
+                        </div>
+                       
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Category:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{products.category}}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Date:</label>
+                            </div>
+                            <div class="col-md-4">
+                                <p>{{products.created_at}}</p>
+                            </div>
+                        </div>
+                        
+                </div>       
+                </div>
+            </div>
+</div>
+</div>
+<div class="container">
+<form action="" method="post">
+    {% csrf_token %}
+<a class="btn btn-info" href="{% url 'create' %}">Initialize Payment</a>
+<a class="btn btn-info" href="{% url 'add-to-cart' products.pk %}">Add To Cart</a>
+ 
+</form>
+<br><br>
+<hr>
+<p>Related Products</p>
+
+<div class="container ">
+    <!-- <h1>Products</h1> -->
+    <div class="card-columns" style="padding: 10px; margin: 20px;">
+        {% for p in product %}
+        <div class="card" style="width: 19rem; height: 30rem; border:1px rgb(201, 197, 197)">
+            <img class="card-img-top" src="/media/{{p.image}}" alt="Card image cap" style="height: 19rem; width: 19rem;">
+            <div class="card-body">
+            <h5 class="category"><a style="text-decoration: none; color: red;" href="{% url 'category' p.pk %}">{{p.category}}</a></h5>
+            <h5 class="card-title">{{p.manufacturer}}</h5>
+           
+            <p class="card-text">N{{p.price}}</p>
+          
+          
+            <a class="btn btn-primary" href="{% url 'product_detail' p.pk %}">Details</a>
+            {% if user.is_superuser %}
+            <a class="btn btn-warning" href="{% url 'edit_product' p.pk %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'delete_product' p.pk %}">Delete</a>
+            {% endif %}
+            </div>
+        </div>
+     {% endfor %}
+     
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %} Cart {% endblock %}
+{% block add_cart_active %} active {% endblock add_cart_active %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+{% load cart_tag %}
+
+<div class="container mt-5 mb-3">
+    <h5 class="card-title">CART</h5>
+    
+        
+    <div class="col-lg-4 my-4">
+    
+         <div class="card shadow" style="width: 800px;">
+            <div class="container" style="background-color: blue;"><h5 class="card-title" style=" color: white; margin-left: 230px;">Create Cart</h5></div>
+
+            <div class="container">
+            <table class="table table-sm">
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Saved</th>
+                    <!-- <th>Remove</th>
+                    <th>Edit</th>
+                    <th>Delete</th> -->
+                       
+                </tr>
+               
+                {% for cart_item in object.cartItem.all %}
+                <tr>
+                   <td scope="row">{{forloop.counter}}</td>
+                   <td>{{cart_item.product.manufacturer}}</td> 
+                   <td>{{cart_item.product.price}}</td>
+                   <td>
+                    <a href="{% url 'remove-single-item-from-cart' cart_item.product.pk %}"><i class="bi bi-dash"></i></a>
+                    {{cart_item.quantity}}
+                    <a href="{% url 'add-to-cart' cart_item.product.pk %}"><i class="bi bi-plus"></i></a>
+                   </td> 
+                   {% if cart_item.product.discount_price %}
+                   <td>N{{cart_item.get_total_discount_price}}</td>
+                   <td>(saving N{{ cart_item.get_amount_saved }})</td>
+                   
+                   {% else %}
+                   <td>N{{cart_item.get_total_item_price}}</td>
+                   {% endif %}
+                   <!-- <td><a href="{% url 'remove-from-cart' cart_item.product.pk %}" class="btn btn-info">Remove</a></td>  -->
+                   <td><a href="{% url 'edit-cart-item' cart_item.pk %}" style="color: rgb(191, 191, 12);"><i class="bi bi-pencil-square"></i></a></td>
+                   <td><a href="{% url 'delete-cart-item' cart_item.pk %}" style="color: red;"><i class="bi bi-trash3"></i>
+                   </a></td> 
+                </tr>
+              
+               
+               {% endfor %}
+             
+                </table>
+               
+                </div>
+                
+</div>
+</div>
+<div>
+   
+   <div class="container">
+    <td><b>Order Total:</b></td>
+    <td colspan="5">N{{object.get_total}}</td>
+    </div>
+<br>
+
+<a href="{% url 'create' %}" class="btn btn-info">Initialize Payment</a>
+
+
+
+
+<!-- Total Length :: {{request.session.cart|length}}
+
+
+
+{% for key,value in request.session.cart.items %}
+{{value.name}} {{value.price}} {{value.quantity}} {{value.image}} Total {{ value.price|multiply:value.quantity }}
+
+{% endfor %} -->
+
+{% endblock %}

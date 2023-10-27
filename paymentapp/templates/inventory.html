@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %} Inventory {% endblock %}
+{% block inventory_active %} active {% endblock inventory_active %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mt-5">
+            <div class="card text-white mb-4" style="background-color: lightslategray">
+                <div class="card-body">
+                    <h4 style="margin-left: 50px;">Total Products</h4>
+                    </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white btn btn-primary" style="color: white; margin-left: 100px;" href="#">{{total_products}}</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+            </div>
+
+        <div class="col-xl-3 col-md-6 mt-5">
+            <div class="card text-white mb-4" style="background-color: lightskyblue;">
+                <div class="card-body">
+                    <h4 style="margin-left: 50px;">Total Orders</h4>
+                    </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white btn btn-primary" style="color: white; margin-left: 100px;" href="#">{{total_orders}}</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div> 
+            </div>
+
+        <div class="col-xl-3 col-md-6 mt-5">
+            <div class="card text-white mb-4" style="background-color: lightseagreen;">
+                <div class="card-body">
+                    <h4 style="margin-left: 50px;">Orders Pending</h4>
+                    </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white btn btn-primary" style="color: white; margin-left: 100px;" href="#">{{pending}}</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div> 
+        </div>
+           
+        <div class="col-xl-3 col-md-6 mt-5">
+            <div class="card text-white mb-4" style="background-color: lightgreen;">
+                <div class="card-body">
+                    <h4 style="margin-left: 50px;">Orders Delivered</h4>
+                    </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a class="small text-white btn btn-primary" style="color: white; margin-left: 100px;" href="#">{{delivered}}</a>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div> 
+        </div>
+        
+        
+        <div class="container-fluid">
+        <h5 class="card-title">CUSTOMERS</h5>
+        <div class="d-flex">
+            
+        <div class="col-lg-4 my-4" id="icon-box">
+        
+             <div class="card shadow">
+                <div class="container" style="background-color: blue;"><h5 class="card-title" style=" color: white; margin-left: 130px;">Create Customer</h5></div>
+
+                <div class="container">
+                <table class="table table-sm">
+                    <tr>
+                        <th></th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                             
+                    </tr>
+
+                    <tr>
+                        
+                        {% for p in payments %}
+                       <td><a class="btn btn-info" href="{% url 'payment_detail' p.pk %}">View</a></td>
+                    
+                       <td>{{p.first_name}}</td>
+                       <td>{{p.phone_no}}</td>
+                       
+                    </tr>
+                   
+                    {% endfor %}
+                    </table>
+                    </div>
+    </div>
+</div>
+
+
+
+<div class="col-lg-4 my-4" id="icon-box" style="margin-left: 50px;">
+      
+    <div class="card shadow" style="width: 50rem;">
+        
+        <div class="container">
+            <table class="table table-sm">
+                <tr>
+                    
+                    <th>ID</th>
+                    <th>Price</th>
+                    <th>Date Ordered</th>
+                    <th>Add</th>
+                    <th>Edit</th>
+                    <th>Remove</th>
+                         
+                </tr>
+
+                <tr>
+                    {% for p in payments %}
+                   <td>{{p.id}}</td>
+                   <td>{{p.amount}}</td>
+                   <td>{{p.created}}</td>
+                   <td><a class="btn btn-info" href="{% url 'create' %}">Add</a></td>
+                   <td><a class="btn btn-warning" href="{% url 'edit_payment' p.pk %}">Edit</a></td>
+                   <td><a class="btn btn-danger" href="{% url 'delete_payment' p.pk %}">Delete</a></td>
+                   
+                </tr>
+                {% endfor %}
+                
+                </table>
+                </div>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+{% endblock %}

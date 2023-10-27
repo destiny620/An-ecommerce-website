@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} Blog Categories {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+
+<!-- <h1>Categories</h1> -->
+
+<!-- {% for item in cat_menu_list %}
+<h4><a class="dropdown-item" href="{% url 'category' item %}">{{ item }}</a></h4>
+{% endfor %} -->
+
+<div class="container mt-5 mb-3">
+    <!-- <h1>Products</h1> -->
+    <div class="row" style="padding: 10px; margin: 20px;">
+    {% for product  in cat_menu_list reversed %}
+    <div class="col-lg-4 my-4">
+        <div class="card" style="width: 19rem; height: 30rem; border:1px rgb(201, 197, 197)">
+            <img class="card-img-top" src="/media/{{product.image}}" alt="Card image cap" style="height: 19rem; width: 19rem;">
+            <div class="card-body">
+            <h5  class="category"><a style="text-decoration: none; color: red;" href="{% url 'category' product.category %}">{{product.category}}</a></h5>
+            <h5 class="card-title">{{product.manufacturer}}</h5>
+           
+            <p class="card-text">N{{product.price}}</p>
+            <a class="btn btn-primary" href="{% url 'product_detail' product.pk %}">Details</a>
+            <a class="btn btn-warning" href="{% url 'edit_product' product.pk %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'delete_product' product.pk %}">Delete</a>
+            
+        </div>
+        </div>
+        </div>
+     {% endfor %}
+    </div>
+    </div>
+ 
+
+
+{% endblock %}

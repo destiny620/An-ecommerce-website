@@ -1,0 +1,303 @@
+{% if submitbutton == 'Search' and request.GET.q != '' %}
+    {% if results %}
+    <h1>Results for <b>{{ request.GET.q }}</b></h1>
+    <div class="container mt-5 mb-3">
+        <!-- <h1>Products</h1> -->
+        <div class="row" style="padding: 10px; margin: 20px;">
+            {% for result in results %}
+        <div class="col-lg-4 my-4">
+            <div class="card" style="width: 19rem; height: 25rem; border:1px rgb(201, 197, 197) solid">
+                <img class="card-img-top" src="/media/{{product.image}}" alt="Card image cap" style="height: 13rem; width: 19rem;">
+                <div class="card-body">
+                <h5  class="category"><a style="text-decoration: none; color: red;" href="{% url 'category' product.category %}">{{result.category}}</a></h5>
+                <h5 class="card-title">{{result.manufacturer}}</h5>
+               
+                <p class="card-text">N{{result.price}}</p>
+                <a class="btn btn-primary" href="{% url 'product_detail' result.pk %}">Details</a>
+                <a class="btn btn-warning" href="{% url 'edit_product' result.pk %}">Edit</a>
+                <a class="btn btn-danger" href="{% url 'delete_product' result.pk %}">Delete</a>
+                
+            </div>
+            </div>
+            </div>
+            
+         {{result.manufacturer}}
+            <br/>
+
+        {{result.content}}
+            <br/>
+         {% endfor %}
+        </div>
+    </div>
+    {% else %}
+    No search results for this query
+    {% endif %}
+    {% endif %}
+
+
+    <form class="d-flex" method="GET" value="{{request.GET.q}}" action="/search/"> 
+        <input class="form-control me-2" type="search" placeholder="search" name="q"  value="{{request.GET.q}}"  id="searched" aria-label="Search">
+        <button href="/search/" class="btn btn-outline-secondary" type="submit">Search</button>
+      </form>
+
+
+
+      {% extends 'base.html' %}
+
+{% block title %} Cart {% endblock %}
+{% block add_cart_active %} active {% endblock add_cart_active %}
+
+{% block css %}
+
+{% endblock %}
+{% block body %}
+{% load cart_tag %}
+
+<div class="container mt-5 mb-3">
+    <h5 class="card-title">CART</h5>
+    
+        
+    <div class="col-lg-4 my-4">
+    
+         <div class="card shadow" style="width: 600px;">
+            <div class="container" style="background-color: blue;"><h5 class="card-title" style=" color: white; margin-left: 230px;">Create Cart</h5></div>
+
+            <div class="container">
+            <table class="table table-sm">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Remove</th>
+                    <th>Increase</th>
+                    <th>Decrease</th>
+                
+                         
+                </tr>
+
+                <tr>
+                {% for key,value in request.session.cart.items reversed %}
+                   <td>{{value.manufacturer}}</td>
+                   <td>{{value.price}}</td>
+                   <td>{{ value.price|multiply:value.quantity }}</td>
+                   <td><a href="{% url 'item_clear' value.product_id %}" class="btn btn-danger">remove</a></td>
+                   <td><a href="{% url 'item_increment' value.product_id %}" class="btn btn-info">increase</a></td>
+                   <td><a href="{% url 'item_decrement' value.product_id %}" class="btn btn-warning">decrease</a></td>
+                </tr>
+                {% endfor %}
+               
+                </table>
+              
+                </div>
+</div>
+</div>
+<a href="{% url 'create' %}" class="btn btn-info">Initialize Payment</a>
+<a href="{% url 'cart_clear' %}" class="btn btn-info">Clear Cart</a>
+
+<!-- Total Length :: {{request.session.cart|length}}
+
+
+
+{% for key,value in request.session.cart.items %}
+{{value.name}} {{value.price}} {{value.quantity}} {{value.image}} Total {{ value.price|multiply:value.quantity }}
+
+{% endfor %} -->
+
+{% endblock %}
+
+
+<!-- # def _cart_id(request):
+#      cart = request.session.session_key
+#      if not cart:
+#           cart = request.session.create()
+#           return cart
+     
+# def add_cart(request, product_id):
+#     product = Product.objects.get(id=product_id)
+#     try:
+#          cart = Cart.objects.get(cart_id=_cart_id(request))
+#     except Cart.DoesNotExist:
+#          cart = Cart.objects.create(
+#               cart_id = _cart_id(request)
+#           )
+#     cart.save()
+
+#     try:
+#          cart_item = CartItem.objects.get(product=product, cart=cart)
+#          cart_item.quantity += 1 
+#          cart_item.save()
+
+#     except CartItem.DoesNotExist:
+#          cart_item = CartItem.objects.create(
+#               product = product,
+#               quantity = 1,
+#               cart = cart
+#          )
+#          cart_item.save()
+#     return redirect('cart')
+
+# def cart_detail(request, total=0, quantity=0, cart_items=None):
+#     try:
+#         cart = Cart.objects.get(cart_id=_cart_id(request))
+#         cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+#         for cart_item in cart_items:
+#             total += (cart_item.product.price * cart_item.quantity)
+#             quantity += cart_item.quantity
+#     except ObjectNotExist:
+#          pass
+    
+#     context = {
+#          'total': total,
+#          'quantity':quantity,
+#          'cart_items': cart_items
+#     }
+
+#     return render(request, 'add_cart.html', context) -->
+
+
+<!-- def cart_add(request, pk):
+    cart = Cart(request)
+    product = Product.objects.get(id=pk)
+    cart.add(product=product)
+    # return redirect('blogsView')
+
+    return render(request, 'add_cart.html')
+
+
+def item_clear(request, pk):
+    cart = Cart(request)
+    product = Product.objects.get(id=pk)
+    cart.remove(product)
+    # return redirect("add_cart")
+
+    return render(request, "add_cart.html")
+
+
+
+def item_increment(request, pk):
+    cart = Cart(request)
+    product = Product.objects.get(id=pk)
+    cart.add(product=product)
+    # return redirect("add_cart")
+
+    return render(request, "add_cart.html")
+
+
+def item_decrement(request, pk):
+    cart = Cart(request)
+    product = Product.objects.get(id=pk)
+    cart.decrement(product=product)
+    # return redirect("add_cart")
+
+    return render(request, "add_cart.html")
+
+
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return render(request, "add_cart.html")
+
+
+def cart_detail(request):
+    products = Product.objects.all()
+    return render(request, 'add_cart.html', {'products':products}) -->
+
+    {% extends 'base.html' %}
+
+    {% block title %} Blog Categories {% endblock %}
+    {% block homeactive %} active {% endblock homeactive %}
+    
+    {% block css %}
+    
+    {% endblock %}
+    {% block body %}
+    {% load widget_tweaks %}
+    
+    <div class='container-fluid mt-3'>
+        <form method="post" >
+            {% csrf_token %}
+            {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field }}
+            {% endfor %}
+    
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+    
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                {{ field.label_tag }}
+                
+    
+                {% if form.is_bound %}
+                  {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                      <div class="invalid-feedback">
+                        {{ error }}
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                  {% endif %}
+                {% else %}
+                  {% render_field field class="form-control" %}
+                {% endif %}
+    
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <p><button type="submit" class="btn btn-primary mt-2">Initialize Payment</button></p>
+        </form>     
+    </div>
+    
+    
+    
+    
+     
+    {% endblock %}
+    
+    {% if is_piginated %}
+    <nav aria-label="Page navigation container">
+    <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+    <li><a href="?page={{ page_obj.previous_page_number }} " class="=page-link">&laquo; PREV </a></li>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <li><a href="?page={{ page_obj.next_page_number }}" class="=page-link"> NEXT &raquo;</a></li>
+    {% endif %}
+    </ul>
+    </nav>
+    </div>
+  
+    {% endif %}
+
+
+    <div class="text-center">
+      <ul class="pagination">
+      
+      {% if backup.has_previous %}
+      <li><-a href="?page={{ backup.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">«</li>
+      
+      {% else %}
+      <li class="disabled">«</li>
+      {% endif %}
+      
+      {% if backup.number|add:'-4' > 1 %}
+      <li><-a href="?page={{ page_obj.number|add:'-5' }}">…</li>
+      {% endif %}
+      
+      {% for i in backup.paginator.page_range %}
+      {% if backup.number == i %}
+      <li class="active">{{ i }} (current)</li>
+      {% elif i > backup.number|add:'-5' and i < backup.number|add:'10' %}
+      {% endif %}
+      {% endfor %}
+
+      {% url 'remove-from-cart' object %}
